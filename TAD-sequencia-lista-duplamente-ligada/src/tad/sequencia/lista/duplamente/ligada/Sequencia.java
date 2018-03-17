@@ -5,9 +5,15 @@ package tad.sequencia.lista.duplamente.ligada;
  * @author rute
  */
 public class Sequencia implements ISequencia{
-    private No proximo;
-    private No anterior;
+    private No inicio;
+    private No fim;
     private int tamanho;
+    
+    public Sequencia() {
+        this.inicio = null;
+        this.fim = null;
+        this.tamanho = -1;
+}
     
     @Override
     public int size() {
@@ -16,47 +22,52 @@ public class Sequencia implements ISequencia{
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean estado = (tamanho == -1)?true:false;
+        return estado;
     }
 
     @Override
     public boolean isFirst(No n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean resultado = (n.getAnterior() == this.inicio)?true:false;
+        return resultado;
     }
 
     @Override
     public boolean isLast(No n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean resultado = (n.getProximo()== this.fim)?true:false;
+        return resultado;
     }
 
     @Override
     public Object first() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return this.inicio.getProximo();
     }
 
     @Override
     public Object last() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return this.fim.getAnterior();
     }
 
     @Override
     public Object before(No n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return n.getAnterior();
     }
 
     @Override
     public Object after(No n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return n.getProximo();
     }
 
     @Override
     public void replaceElement(No n, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        n.setElem(o);
     }
 
     @Override
     public void swapElements(No n, No q) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Object segura = n.getElem();
+        n.setElem(q.getElem());
+        q.setElem(segura);
     }
 
     @Override
@@ -81,12 +92,20 @@ public class Sequencia implements ISequencia{
 
     @Override
     public void insertFirst(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        No novoProximo = inicio.getProximo();
+        No novoNo = new No(o, this.inicio, novoProximo);
+        novoProximo.setAnterior(novoNo);
+        inicio.setProximo(novoNo);
+        ++tamanho;
     }
 
     @Override
     public void insertLast(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        No novoAnterior = fim.getAnterior();
+        No novoNo = new No(o, novoAnterior , this.fim);
+        novoAnterior.setProximo(novoNo);
+        fim.setAnterior(novoNo);
+        ++tamanho;
     }
 
     @Override
