@@ -8,24 +8,23 @@ public class Sequencia implements ISequencia{
     private Object S[];
     private int t = -1;
     private int fc;
-    
-    public Sequencia(){
-        
-    }
-    
+
     public Sequencia(int tamanho, int crescimento){
-        this.t = tamanho;
         this.fc = (crescimento<=0)? 0:crescimento;
+        S = new Object[tamanho];
     }
     
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(isEmpty()){
+            return 0;
+        }
+        return t + 1;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (t == -1);
     }
 
     @Override
