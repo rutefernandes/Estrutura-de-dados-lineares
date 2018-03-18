@@ -44,4 +44,7 @@ public class No {
         this.proximo = proximo;
     }
     
+    public String toString(){
+        return "[" + this.getElem() + "]";
+    } 
 }

@@ -10,10 +10,27 @@ public class Sequencia implements ISequencia{
     private int tamanho;
     
     public Sequencia() {
-        this.inicio = null;
-        this.fim = null;
-        this.tamanho = -1;
-}
+        this.inicio = new No();
+        this.fim = new No();
+        this.tamanho = 0;
+    }
+    
+    public No getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(No inicio) {
+        this.inicio = inicio;
+    }
+
+    public No getFim() {
+        return fim;
+    }
+
+    public void setFim(No fim) {
+        this.fim = fim;
+    }
+
     
     @Override
     public int size() {
@@ -22,39 +39,36 @@ public class Sequencia implements ISequencia{
 
     @Override
     public boolean isEmpty() {
-        boolean estado = (tamanho == -1)?true:false;
-        return estado;
+        return (tamanho == 0);
     }
 
     @Override
     public boolean isFirst(No n) {
-        boolean resultado = (n.getAnterior() == this.inicio)?true:false;
-        return resultado;
+        return (n.getAnterior() == this.getInicio());
     }
 
     @Override
     public boolean isLast(No n) {
-        boolean resultado = (n.getProximo()== this.fim)?true:false;
-        return resultado;
+        return (n.getProximo()== this.getFim());
     }
 
     @Override
-    public Object first() {
-       return this.inicio.getProximo();
+    public No first() {
+       return this.getInicio().getProximo();
     }
 
     @Override
-    public Object last() {
-       return this.fim.getAnterior();
+    public No last() {
+       return this.getFim().getAnterior();
     }
 
     @Override
-    public Object before(No n) {
+    public No before(No n) {
         return n.getAnterior();
     }
 
     @Override
-    public Object after(No n) {
+    public No after(No n) {
        return n.getProximo();
     }
 
@@ -76,6 +90,7 @@ public class Sequencia implements ISequencia{
         No novoAnterior = antigoNo.getAnterior();
         No novoNo = new No(o, novoAnterior, antigoNo);
         antigoNo.setAnterior(novoNo);
+        novoAnterior.setProximo(novoNo);
         tamanho++;
         return size();
     }
@@ -86,25 +101,26 @@ public class Sequencia implements ISequencia{
         No novoProximo = antigoNo.getProximo();
         No novoNo = new No(o,antigoNo, novoProximo);
         antigoNo.setProximo(novoNo);
+        novoProximo.setAnterior(novoNo);
         tamanho++;
         return size();
     }
 
     @Override
     public void insertFirst(Object o) {
-        No novoProximo = inicio.getProximo();
-        No novoNo = new No(o, this.inicio, novoProximo);
+        No novoProximo = getInicio().getProximo();
+        No novoNo = new No(o, this.getInicio(), novoProximo);
         novoProximo.setAnterior(novoNo);
-        inicio.setProximo(novoNo);
+        getInicio().setProximo(novoNo);
         ++tamanho;
     }
 
     @Override
     public void insertLast(Object o) {
-        No novoAnterior = fim.getAnterior();
-        No novoNo = new No(o, novoAnterior , this.fim);
+        No novoAnterior = getFim().getAnterior();
+        No novoNo = new No(o, novoAnterior , this.getFim());
         novoAnterior.setProximo(novoNo);
-        fim.setAnterior(novoNo);
+        getFim().setAnterior(novoNo);
         ++tamanho;
     }
 
@@ -112,7 +128,7 @@ public class Sequencia implements ISequencia{
     public Object remove(No n) {
         Object elemRemovido = n.getElem();
         n.getAnterior().setProximo(n.getProximo());
-        n.getProximo().setAnterior(n.getProximo());
+        n.getProximo().setAnterior(n.getAnterior());
         n.setProximo(null);
         n.setAnterior(null);
         return elemRemovido;
@@ -134,8 +150,12 @@ public class Sequencia implements ISequencia{
 
     @Override
     public void insertAtRank(int r, Object o) {
-        //No no = atRank(r); 
-        //Qual a diferença desse pro replaceAtRank??
+        No antigoNo = atRank(r);
+        No novoNo = new No(o, antigoNo.getAnterior(), antigoNo);
+        antigoNo.getAnterior().setProximo(novoNo);
+        antigoNo.setAnterior(novoNo);
+        ++tamanho;
+    //Basicamente faz o mesmo que os metodos insert(). Coleguinha quer isso mesmo?
     }
 
     @Override
@@ -151,12 +171,12 @@ public class Sequencia implements ISequencia{
     public No atRank(int r) {
         No no;
         if(r <= size()/2){
-            no = inicio.getProximo();
+            no = getInicio().getProximo();
             for(int i = 0; i<r; ++i){
 		no = no.getProximo();
             }
 	} else {
-            no = fim.getAnterior();
+            no = getFim().getAnterior();
             for(int i=0; i<size()-r-1; ++i){
 		no = no.getAnterior();
             }
@@ -166,9 +186,9 @@ public class Sequencia implements ISequencia{
 
     @Override
     public Object rankOf(No n) {
-        No ini = inicio.getProximo();
+        No ini = getInicio().getProximo();
         int r = 0;
-        while(ini != n && ini!= fim){
+        while(ini != n && ini!= getFim()){
             ini = ini.getProximo();
             r++;
         }
