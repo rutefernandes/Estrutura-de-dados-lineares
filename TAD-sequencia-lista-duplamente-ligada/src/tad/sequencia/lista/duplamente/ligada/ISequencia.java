@@ -16,9 +16,9 @@ public interface ISequencia {
     public void insertLast(Object o);
     public Object remove(No n); 
     public Object elemAtRank(int r);
-    public Object replaceAtRank(int r);
-    public void insertAtRank(int r);
+    public Object replaceAtRank(int r, Object o);
+    public void insertAtRank(int r, Object o);
     public Object removeAtRank(int r);
-    public Object atRank(int r);
+    public No atRank(int r);
     public Object rankOf(No n);
 }

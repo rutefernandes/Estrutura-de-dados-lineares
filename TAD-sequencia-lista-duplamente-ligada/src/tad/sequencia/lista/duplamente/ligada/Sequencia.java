@@ -120,32 +120,58 @@ public class Sequencia implements ISequencia{
 
     @Override
     public Object elemAtRank(int r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        No no = atRank(r);
+        return no.getElem();
     }
 
     @Override
-    public Object replaceAtRank(int r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object replaceAtRank(int r, Object o) {
+        No no = atRank(r);
+        Object antigoElemento = no.getElem();
+        no.setElem(o);
+        return antigoElemento;
     }
 
     @Override
-    public void insertAtRank(int r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void insertAtRank(int r, Object o) {
+        //No no = atRank(r); 
+        //Qual a diferença desse pro replaceAtRank??
     }
 
     @Override
     public Object removeAtRank(int r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        No no = atRank(r);
+        Object elementoRemovido = no.getElem();
+        remove(no);
+        --tamanho;
+        return elementoRemovido;
     }
 
     @Override
-    public Object atRank(int r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public No atRank(int r) {
+        No no;
+        if(r <= size()/2){
+            no = inicio.getProximo();
+            for(int i = 0; i<r; ++i){
+		no = no.getProximo();
+            }
+	} else {
+            no = fim.getAnterior();
+            for(int i=0; i<size()-r-1; ++i){
+		no = no.getAnterior();
+            }
+	}
+	return no;	
     }
 
     @Override
     public Object rankOf(No n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        No ini = inicio.getProximo();
+        int r = 0;
+        while(ini != n && ini!= fim){
+            ini = ini.getProximo();
+            r++;
+        }
+        return r;
     }
-    
 }
