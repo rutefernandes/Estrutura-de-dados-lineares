@@ -13,6 +13,8 @@ public class Sequencia implements ISequencia{
         this.inicio = new No();
         this.fim = new No();
         this.tamanho = 0;
+        this.fim.setAnterior(inicio);
+        inicio.setProximo(fim);
     }
     
     public No getInicio() {
@@ -73,8 +75,10 @@ public class Sequencia implements ISequencia{
     }
 
     @Override
-    public void replaceElement(No n, Object o) {
+    public Object replaceElement(No n, Object o) {
+        Object ultimoElemento = n.getElem();
         n.setElem(o);
+        return ultimoElemento;
     }
 
     @Override
@@ -131,6 +135,7 @@ public class Sequencia implements ISequencia{
         n.getProximo().setAnterior(n.getAnterior());
         n.setProximo(null);
         n.setAnterior(null);
+        --tamanho;
         return elemRemovido;
     }
 
@@ -155,7 +160,6 @@ public class Sequencia implements ISequencia{
         antigoNo.getAnterior().setProximo(novoNo);
         antigoNo.setAnterior(novoNo);
         ++tamanho;
-    //Basicamente faz o mesmo que os metodos insert(). Coleguinha quer isso mesmo?
     }
 
     @Override
@@ -163,7 +167,6 @@ public class Sequencia implements ISequencia{
         No no = atRank(r);
         Object elementoRemovido = no.getElem();
         remove(no);
-        --tamanho;
         return elementoRemovido;
     }
 

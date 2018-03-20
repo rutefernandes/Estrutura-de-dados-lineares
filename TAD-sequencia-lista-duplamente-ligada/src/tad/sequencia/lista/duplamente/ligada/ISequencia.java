@@ -8,7 +8,7 @@ public interface ISequencia {
     public No last();
     public No before(No n);
     public No after(No n);
-    public void replaceElement(No n, Object o);
+    public Object replaceElement(No n, Object o);
     public void swapElements(No n, No q);
     public Object insertBefore(No n, Object o);
     public Object insertAfter(No n, Object o);
