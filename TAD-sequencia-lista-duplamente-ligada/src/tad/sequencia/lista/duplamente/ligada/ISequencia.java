@@ -19,6 +19,6 @@ public interface ISequencia {
     public Object replaceAtRank(int r, Object o);
     public void insertAtRank(int r, Object o);
     public Object removeAtRank(int r);
-    public No atRank(int r);
+    public No atRank(int r) throws EIndexInvalido;
     public Object rankOf(No n);
 }

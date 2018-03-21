@@ -140,7 +140,7 @@ public class Sequencia implements ISequencia{
     }
 
     @Override
-    public Object elemAtRank(int r) {
+    public Object elemAtRank(int r)  {
         No no = atRank(r);
         return no.getElem();
     }
@@ -171,24 +171,28 @@ public class Sequencia implements ISequencia{
     }
 
     @Override
-    public No atRank(int r) {
-        No no;
-        if(r <= size()/2){
-            no = getInicio().getProximo();
-            for(int i = 0; i<r; ++i){
-		no = no.getProximo();
+    public No atRank(int r) throws EIndexInvalido{
+        if(r < 0 || r > size()){
+            throw new EIndexInvalido("Posição inválida");
+        } else {
+            No no;
+            if(r <= size()/2){
+                no = getInicio().getProximo();
+                for(int i = 0; i<r; ++i){
+                    no = no.getProximo();
+                }
+            } else {
+                no = getFim().getAnterior();
+                for(int i=0; i<size()-r-1; ++i){
+                    no = no.getAnterior();
+                }
             }
-	} else {
-            no = getFim().getAnterior();
-            for(int i=0; i<size()-r-1; ++i){
-		no = no.getAnterior();
-            }
-	}
-	return no;	
+	return no;
+        }
     }
 
     @Override
-    public Object rankOf(No n) {
+    public Object rankOf(No n){
         No ini = getInicio().getProximo();
         int r = 0;
         while(ini != n && ini!= getFim()){

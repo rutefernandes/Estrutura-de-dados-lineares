@@ -9,23 +9,17 @@ public class Teste {
     public static void main(String[] args) {
         Sequencia s = new Sequencia();
         Object o = "objeto";
-        
-        // fazendo inicio apontar pro fim e vice-versa
-        No inicio = s.getInicio();
-        No fim = s.getFim();
-        fim.setAnterior(inicio);
-        inicio.setProximo(fim);
-        inicio.setElem("HEADER");
-        
         int r = 3;
         s.insertLast("c");
         s.insertBefore(s.last(), "b");
         s.insertBefore(s.last().getAnterior(), "a");
-        s.insertAtRank(2, "cu");
+        s.insertAtRank(2, "lalas");
         
-        System.out.println(s.atRank(-1));
-        
-        //arrumar rank invalido (exception or null verif)
+        try {
+            s.atRank(5);
+        } catch (EIndexInvalido e) {
+            System.out.println("Posição inválida");
+        }
         
         /* Metodos 
         s.size();
