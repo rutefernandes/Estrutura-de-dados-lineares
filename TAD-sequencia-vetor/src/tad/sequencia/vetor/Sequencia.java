@@ -5,13 +5,13 @@ package tad.sequencia.vetor;
  * @author rute
  */
 public class Sequencia implements ISequencia{
-    private Object S[];
+    private PosArray S[];
     private int t = -1;
     private int fc;
 
     public Sequencia(int tamanho, int crescimento){
         this.fc = (crescimento<=0)? 0:crescimento;
-        S = new Object[tamanho];
+        S = new PosArray[tamanho];
     }
     
     @Override
@@ -29,97 +29,167 @@ public class Sequencia implements ISequencia{
 
     @Override
     public boolean isFirst(Object n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!isEmpty())
+            return n.equals(first());
+        return false;
     }
 
     @Override
     public boolean isLast(Object n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!isEmpty())
+            return n.equals(last());
+        return false;
     }
 
     @Override
-    public Object first() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PosArray first() {
+        return S[0];
     }
 
     @Override
-    public Object last() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PosArray last() {
+        return S[S.length-1];
     }
 
     @Override
-    public Object before(Object n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PosArray before(PosArray n){
+        return n.rank == 0 ? last() : S[n.rank-1];
     }
 
     @Override
-    public Object after(Object n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PosArray after(PosArray n){
+        return n.rank == S.length-1 ? first() : S[n.rank+1];
     }
 
     @Override
-    public void replaceElementObject(Object n, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void replaceElementObject(int r, Object o) throws EColocacaoInvalida{
+        if (r >= 0 && r < S.length)
+            S[r].elemento = o;
+        else 
+            throw new EColocacaoInvalida();
     }
 
     @Override
-    public void swapElements(Object n, Object q) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void swapElements(PosArray n, PosArray q) {
+        int r = n.rank;
+        n.rank = q.rank;
+        q.rank = r;
+        S[q.rank] = q;
+        S[n.rank] = n;
     }
 
     @Override
-    public Object insertBefore(Object n, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object insertBefore(PosArray n, Object o) {
+        PosArray aux[];
+        int cont;
+        if (size() == S.length - 1) {
+            if(fc == 0){
+               aux = new PosArray[S.length*2];
+            } else {
+               aux = new PosArray[S.length + fc];
+            }
+            for (cont = 0; cont < size(); cont++) {
+                aux[cont] = S[cont];
+            }
+            S = aux;
+        }
+        for (int i = t; i >= 0; i--) {
+            if (i > n.rank) {
+                S[i+1] = S[i];
+                S[i+1].rank = i+1;
+            } else {
+                S[i+1] = S[i];
+                S[i+1].rank = i+1;
+                S[i] = new PosArray(i, o);
+            }
+        }
+        t++;
+        return o;
     }
 
     @Override
-    public Object insertAfter(Object n, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object insertAfter(PosArray n, Object o) {
+        PosArray aux[];
+        int cont;
+        if (size() == S.length - 1) {
+            if(fc == 0){
+               aux = new PosArray[S.length*2];
+            } else {
+               aux = new PosArray[S.length + fc];
+            }
+            for (cont = 0; cont < size(); cont++) {
+                aux[cont] = S[cont];
+            }
+            S = aux;
+        }
+        for (int i = t; i >= 0; i--) {
+            if (i > n.rank) {
+                S[i+1] = S[i];
+                S[i+1].rank = i+1;
+            } else {
+                S[n.rank+1] = new PosArray(i, o);
+                break;
+            }
+        }
+        t++;
+        return o;
     }
 
     @Override
     public void insertFirst(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        insertBefore(first(), o);
     }
 
     @Override
     public void insertLast(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        insertAfter(last(), o);
     }
 
     @Override
-    public Object remove(Object n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object remove(PosArray n) {
+        Object rip = S[n.rank].elemento;
+        for (int i = n.rank; i >= 0; i--) {
+            if (i <= t) {
+                S[i] = S[i+1];
+            }
+        }
+        t--;
+        return rip;
     }
 
     @Override
     public Object elemAtRank(int r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return S[r].elemento;
     }
 
     @Override
     public Object replaceAtRank(int r, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Object old = S[r].elemento;
+        S[r].elemento = o;
+        return old;
     }
 
     @Override
     public void insertAtRank(int r, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        insertBefore(S[r], o);
     }
 
     @Override
     public Object removeAtRank(int r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return remove(S[r]);
     }
 
     @Override
     public Object atRank(int r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return S[r].elemento;
     }
 
     @Override
     public Object rankOf(Object n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (int i = 0; i <= t; i++)
+            if(S[i].elemento == n)
+                return i;
+        return -1; // talvez lançar uma exceção
     }
     
 }

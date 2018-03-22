@@ -7,7 +7,15 @@ package tad.sequencia.vetor;
 
 /**
  *
- * @author rute
+ * @author tiago
  */
-public class EColocacaoInvalida extends RuntimeException{ 
+public class PosArray {
+    public int rank;
+    public Object elemento;
+    
+    
+    public PosArray(int rank, Object elemento) {
+        this.rank = rank;
+        this.elemento = elemento;
+    }
 }
