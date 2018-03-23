@@ -2,7 +2,7 @@ package tad.sequencia.vetor;
 
 /**
  *
- * @author rute
+ * @author tiago
  */
 public class Sequencia implements ISequencia{
     private PosArray S[];
