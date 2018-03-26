@@ -13,6 +13,14 @@ public class PosArray {
     public int rank;
     public Object elemento;
     
+    public Object getElemento() {
+        return this.elemento;
+    }
+    
+    public void setElemento(Object elemento) {
+        this.elemento = elemento;
+    }
+    
     
     public PosArray(int rank, Object elemento) {
         this.rank = rank;

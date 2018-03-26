@@ -48,7 +48,7 @@ public class Sequencia implements ISequencia{
 
     @Override
     public PosArray last() {
-        return S[S.length-1];
+        return S[t >= 0 ? t : 0];
     }
 
     @Override
@@ -58,24 +58,26 @@ public class Sequencia implements ISequencia{
 
     @Override
     public PosArray after(PosArray n){
-        return n.rank == S.length-1 ? first() : S[n.rank+1];
+        return n.rank == t ? first() : S[n.rank+1];
     }
 
     @Override
-    public void replaceElementObject(int r, Object o) throws EColocacaoInvalida{
-        if (r >= 0 && r < S.length)
-            S[r].elemento = o;
-        else 
-            throw new EColocacaoInvalida();
+    public Object replaceElement(PosArray n, Object o){
+        Object old = S[n.rank].elemento;
+        S[n.rank].elemento = o;
+        return old;
     }
 
     @Override
     public void swapElements(PosArray n, PosArray q) {
-        int r = n.rank;
-        n.rank = q.rank;
-        q.rank = r;
-        S[q.rank] = q;
-        S[n.rank] = n;
+        int rankN = n.rank;
+        int rankQ = q.rank;
+        
+        Object elN = S[rankN].elemento;
+        Object elQ = S[rankQ].elemento;
+        
+        S[rankN].elemento = elQ;
+        S[rankQ].elemento = elN;
     }
 
     @Override
@@ -93,14 +95,19 @@ public class Sequencia implements ISequencia{
             }
             S = aux;
         }
-        for (int i = t; i >= 0; i--) {
-            if (i > n.rank) {
-                S[i+1] = S[i];
-                S[i+1].rank = i+1;
-            } else {
-                S[i+1] = S[i];
-                S[i+1].rank = i+1;
-                S[i] = new PosArray(i, o);
+        if (isEmpty()){
+            S[0] = new PosArray(0, o);
+        } else {
+            for (int i = t; i >= 0; i--) {
+                if (i > n.rank) {
+                    S[i+1] = S[i];
+                    S[i+1].rank = i+1;
+                } else {
+                    S[i+1] = S[i];
+                    S[i+1].rank = i+1;
+                    S[i] = new PosArray(i, o);
+                    break;
+                }
             }
         }
         t++;
@@ -122,13 +129,17 @@ public class Sequencia implements ISequencia{
             }
             S = aux;
         }
-        for (int i = t; i >= 0; i--) {
-            if (i > n.rank) {
-                S[i+1] = S[i];
-                S[i+1].rank = i+1;
-            } else {
-                S[n.rank+1] = new PosArray(i, o);
-                break;
+        if (isEmpty()){
+            S[0] = new PosArray(0, o);
+        } else {
+            for (int i = t; i >= 0; i--) {
+                if (i > n.rank) {
+                    S[i+1] = S[i];
+                    S[i+1].rank = i+1;
+                } else {
+                    S[n.rank+1] = new PosArray(n.rank+1, o);
+                    break;
+                }
             }
         }
         t++;
@@ -148,46 +159,55 @@ public class Sequencia implements ISequencia{
     @Override
     public Object remove(PosArray n) {
         Object rip = S[n.rank].elemento;
-        for (int i = n.rank; i >= 0; i--) {
-            if (i <= t) {
-                S[i] = S[i+1];
-            }
+        for (int i = n.rank; i < t; i++) {
+            S[i] = S[i+1];
+            S[i].rank = i;
         }
-        t--;
+        S[t--] = null;
         return rip;
     }
 
     @Override
-    public Object elemAtRank(int r) {
+    public Object elemAtRank(int r) throws EColocacaoInvalida {
+        if (r > t || r < 0)
+            throw new EColocacaoInvalida();
         return S[r].elemento;
     }
 
     @Override
-    public Object replaceAtRank(int r, Object o) {
+    public Object replaceAtRank(int r, Object o) throws EColocacaoInvalida {
+        if (r > t || r < 0)
+            throw new EColocacaoInvalida();
         Object old = S[r].elemento;
         S[r].elemento = o;
         return old;
     }
 
     @Override
-    public void insertAtRank(int r, Object o) {
+    public void insertAtRank(int r, Object o) throws EColocacaoInvalida {
+        if (r > t || r < 0)
+            throw new EColocacaoInvalida();
         insertBefore(S[r], o);
     }
 
     @Override
-    public Object removeAtRank(int r) {
+    public Object removeAtRank(int r) throws EColocacaoInvalida {
+        if (r > t || r < 0)
+            throw new EColocacaoInvalida();
         return remove(S[r]);
     }
 
     @Override
-    public Object atRank(int r) {
-        return S[r].elemento;
+    public PosArray atRank(int r) throws EColocacaoInvalida {
+        if (r > t || r < 0)
+            throw new EColocacaoInvalida();
+        return S[r];
     }
 
     @Override
     public Object rankOf(Object n) {
         for (int i = 0; i <= t; i++)
-            if(S[i].elemento == n)
+            if(S[i].elemento.equals(n))
                 return i;
         return -1; // talvez lançar uma exceção
     }
