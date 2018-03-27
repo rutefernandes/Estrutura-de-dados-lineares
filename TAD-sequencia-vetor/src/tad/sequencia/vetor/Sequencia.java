@@ -30,14 +30,14 @@ public class Sequencia implements ISequencia{
     @Override
     public boolean isFirst(Object n) {
         if (!isEmpty())
-            return n.equals(first());
+            return n.equals(first().elemento);
         return false;
     }
 
     @Override
     public boolean isLast(Object n) {
         if (!isEmpty())
-            return n.equals(last());
+            return n.equals(last().elemento);
         return false;
     }
 
