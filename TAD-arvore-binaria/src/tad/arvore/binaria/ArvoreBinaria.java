@@ -125,10 +125,9 @@ public class ArvoreBinaria implements IArvoreBinaria{
         return (no.getFilhoDireita() != null);
     }
 
-    
     @Override
-    public void buscar(int posicao) {
-        buscar(posicao, getRaiz());
+    public No buscar(int posicao) {
+        return buscar(posicao, getRaiz());
     }
   
     @Override
@@ -154,7 +153,7 @@ public class ArvoreBinaria implements IArvoreBinaria{
             setRaiz(novoNo);
         } else {
             No segura = buscar(o, getRaiz());
-            //substituir no ja existente
+            //substitui no existente
             if(segura.getElemento() == novoNo.getElemento()){
                 No pai = parent(segura);
                 No filhoEsquerda = segura.getFilhoEsquerda();

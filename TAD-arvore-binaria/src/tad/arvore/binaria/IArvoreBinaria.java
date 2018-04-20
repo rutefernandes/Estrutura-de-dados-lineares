@@ -37,7 +37,9 @@ public interface IArvoreBinaria {
     public boolean hasRight(No no);
     
     public void adicionar(int o);
-    public void buscar(int posicao);
+    public No buscar(int posicao);
     public No buscar(int posicao, No raiz);
+    //remoçao()
+    //mostrar();
 
 }
