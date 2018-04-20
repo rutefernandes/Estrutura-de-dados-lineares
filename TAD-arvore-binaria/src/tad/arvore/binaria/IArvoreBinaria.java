@@ -28,11 +28,16 @@ public interface IArvoreBinaria {
     public int depth(No no);
 
     /* Métodos de atualização */
-    public Object replace(No no, Object o);    
+    public int replace(No no, int o);    
 
    /* Métodos da arvore binaria */
-    public int leftChild(No no);;
-    public int rightChild(No no);;
+    public Object leftChild(No no);;
+    public Object rightChild(No no);;
     public boolean hasLeft(No no);
     public boolean hasRight(No no);
+    
+    public void adicionar(int o);
+    public void buscar(int posicao);
+    public No buscar(int posicao, No raiz);
+
 }

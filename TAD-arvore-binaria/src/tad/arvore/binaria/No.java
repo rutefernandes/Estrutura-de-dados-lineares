@@ -8,20 +8,13 @@ public class No {
     private int elemento;
     private No pai;
     private No filhoEsquerda;
-    private No filhoDireta;
+    private No filhoDireita;
     
     public No(){
     }
     
     public No(int elemento){
         this.elemento = elemento;
-    }
-    
-    public No(int elemento, No pai, No filhoEsquerda, No filhoDireta){
-        super();
-        this.pai = pai;
-        this.filhoEsquerda = filhoEsquerda;
-        this.filhoDireta = filhoDireta;
     }
     
     public int getElemento() {
@@ -48,12 +41,12 @@ public class No {
         this.filhoEsquerda = filhoEsquerda;
     }
 
-    public No getFilhoDireta() {
-        return filhoDireta;
+    public No getFilhoDireita() {
+        return filhoDireita;
     }
 
-    public void setFilhoDireta(No filhoDireta) {
-        this.filhoDireta = filhoDireta;
+    public void setFilhoDireita(No filhoDireita) {
+        this.filhoDireita = filhoDireita;
     }
 
 }
