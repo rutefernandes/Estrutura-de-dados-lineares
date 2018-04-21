@@ -1,5 +1,7 @@
 package tad.arvore.binaria;
 
+import java.util.Iterator;
+
 /**
  *
  * @author rute
@@ -7,13 +9,16 @@ package tad.arvore.binaria;
 public class Teste {
 
     public static void main(String[] args) {
-        ArvoreBinaria arvore = new ArvoreBinaria(4);
+        ArvoreBinaria arvore = new ArvoreBinaria(6);
         arvore.adicionar(7);
-        arvore.adicionar(6); 
-        arvore.adicionar(5);
-        arvore.adicionar(8);
-        No noBusca = arvore.buscar(6);
-        System.out.println(arvore.leftChild(noBusca));
+        arvore.adicionar(9);
+        arvore.adicionar(1);
+        arvore.adicionar(2);
+        arvore.adicionar(3);
+        arvore.adicionar(4);
+        No busca = arvore.buscar(2);
+        System.out.println(arvore.hasLeft(busca));
+        System.out.println(arvore.height());
     }
     
 }

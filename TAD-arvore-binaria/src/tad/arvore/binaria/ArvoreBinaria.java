@@ -44,16 +44,24 @@ public class ArvoreBinaria implements IArvoreBinaria{
     }
 
     @Override
-    public int height() { //DOING
-        No raiz = getRaiz();
-        if(isExternal(raiz)){
-                return 0;
+    public int height() { 
+        return (root()==null?-1:height(root()));
+    }
+    
+    public int height(No v){
+        if(isExternal(v)){
+            return 0;
         } else {
-                int altura = 0;
-                return 1+ altura;
+            int h=0;
+            Iterator itr = children(v);
+            while(itr.hasNext()){
+               No filho = (No) itr.next();
+               h = Math.max(h, height(filho));
+           }
+            return h+1;
         }
     }
-
+    
     @Override
     public Iterator elements() { //TODO
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -76,21 +84,21 @@ public class ArvoreBinaria implements IArvoreBinaria{
 
     @Override
     public Iterator children(No no) {
-       ArrayList n = new ArrayList();
+       ArrayList<No> n = new ArrayList<No>();
        n.add(no.getFilhoEsquerda());
        n.add(no.getFilhoDireita());
-       Iterator filhos = n.iterator();
-       return filhos;
+       Iterator itr = n.iterator();
+       return itr;
     }
 
     @Override
     public boolean isInternal(No no) {
-        return (no.getFilhoDireita()!=null || no.getFilhoEsquerda()!= null);
+        return (no==null)? true : (no.getFilhoDireita()!=null || no.getFilhoEsquerda()!= null);
     }
 
     @Override
     public boolean isExternal(No no) {
-        return (no.getFilhoDireita()==null && no.getFilhoEsquerda()==null);
+        return (no==null)? true : (no.getFilhoDireita()==null && no.getFilhoEsquerda()==null);
     }
 
     @Override
@@ -109,20 +117,12 @@ public class ArvoreBinaria implements IArvoreBinaria{
 
     @Override
     public Object leftChild(No no) {
-        if(hasLeft(no)){
-           return (no.getFilhoEsquerda().getElemento()); 
-        } else {
-            return null;
-        }
+        return hasLeft(no)?(no.getFilhoEsquerda().getElemento()):null;
     }
 
     @Override
     public Object rightChild(No no) {
-        if(hasRight(no)){
-           return (no.getFilhoDireita().getElemento()); 
-        } else {
-            return null;
-        }
+        return hasRight(no)?(no.getFilhoDireita().getElemento()):null;
     }
 
     @Override
@@ -146,19 +146,11 @@ public class ArvoreBinaria implements IArvoreBinaria{
             return atual;       
         }
         if(chave < atual.getElemento()){
-            if(atual.getFilhoEsquerda()!=null){
-               return buscar(chave, atual.getFilhoEsquerda()); 
-            } else {
-                return atual;
-            }
+            return (atual.getFilhoEsquerda()!=null)? buscar(chave, atual.getFilhoEsquerda()) : atual;
         } else if (chave == atual.getElemento()){
            return atual; 
         } else if (chave > atual.getElemento()){
-            if(atual.getFilhoDireita()!=null){
-                return buscar(chave, atual.getFilhoDireita());
-            } else {
-                return atual;
-            }
+            return (atual.getFilhoDireita()!=null)? buscar(chave, atual.getFilhoDireita()) : atual;
         } else {
             return atual; 
         }
