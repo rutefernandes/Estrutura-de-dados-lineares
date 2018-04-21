@@ -48,5 +48,10 @@ public class No {
     public void setFilhoDireita(No filhoDireita) {
         this.filhoDireita = filhoDireita;
     }
+    
+    @Override
+    public String toString(){
+        return "(" + this.getElemento() + ")"; 
+    }
 
 }

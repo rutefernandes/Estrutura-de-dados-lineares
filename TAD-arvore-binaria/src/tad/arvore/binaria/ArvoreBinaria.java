@@ -11,6 +11,11 @@ public class ArvoreBinaria implements IArvoreBinaria{
     private No raiz;
     private int tamanho;
     
+    public ArvoreBinaria(){
+        this.raiz = null;
+        this.tamanho = 0;
+    }
+    
     public ArvoreBinaria(int o){
         raiz = new No(o);
 	tamanho = 1;
@@ -24,9 +29,13 @@ public class ArvoreBinaria implements IArvoreBinaria{
         this.raiz = raiz;
     }
     
+    public int getTamanho() {
+        return tamanho;
+    }
+    
     @Override
     public int size() {
-        return this.tamanho;
+        return this.getTamanho();
     }
 
     @Override
@@ -81,7 +90,7 @@ public class ArvoreBinaria implements IArvoreBinaria{
 
     @Override
     public boolean isExternal(No no) {
-        return (no.getFilhoDireita()==null && no.getFilhoEsquerda()== null);
+        return (no.getFilhoDireita()==null && no.getFilhoEsquerda()==null);
     }
 
     @Override
@@ -99,20 +108,21 @@ public class ArvoreBinaria implements IArvoreBinaria{
     }
 
     @Override
-    public int replace(No no, int o) {
-        int antigo = no.getElemento();
-        no.setElemento(o);
-        return antigo;
-    }
-
-    @Override
     public Object leftChild(No no) {
-        return (no.getFilhoEsquerda().getElemento());
+        if(hasLeft(no)){
+           return (no.getFilhoEsquerda().getElemento()); 
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Object rightChild(No no) {
-        return (no.getFilhoDireita().getElemento());
+        if(hasRight(no)){
+           return (no.getFilhoDireita().getElemento()); 
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -126,21 +136,29 @@ public class ArvoreBinaria implements IArvoreBinaria{
     }
 
     @Override
-    public No buscar(int posicao) {
-        return buscar(posicao, getRaiz());
+    public No buscar(int chave) {
+        return buscar(chave, getRaiz());
     }
   
     @Override
-    public No buscar(int posicao, No atual) {
+    public No buscar(int chave, No atual) {
         if(isExternal(atual)){
             return atual;       
         }
-        if(posicao < atual.getElemento()){
-            return buscar(posicao, atual.getFilhoEsquerda());
-        } else if (posicao == atual.getElemento()){
+        if(chave < atual.getElemento()){
+            if(atual.getFilhoEsquerda()!=null){
+               return buscar(chave, atual.getFilhoEsquerda()); 
+            } else {
+                return atual;
+            }
+        } else if (chave == atual.getElemento()){
            return atual; 
-        } else if (posicao > atual.getElemento()){
-            return buscar(posicao, atual.getFilhoDireita());
+        } else if (chave > atual.getElemento()){
+            if(atual.getFilhoDireita()!=null){
+                return buscar(chave, atual.getFilhoDireita());
+            } else {
+                return atual;
+            }
         } else {
             return atual; 
         }
@@ -151,39 +169,34 @@ public class ArvoreBinaria implements IArvoreBinaria{
         No novoNo = new No(o);
         if(isEmpty()){
             setRaiz(novoNo);
+            tamanho++;
+            System.out.println("Elemento adicionado como Raiz.");
         } else {
             No segura = buscar(o, getRaiz());
-            //substitui no existente
             if(segura.getElemento() == novoNo.getElemento()){
-                No pai = parent(segura);
-                No filhoEsquerda = segura.getFilhoEsquerda();
-                No filhoDireita = segura.getFilhoDireita();
-                
-                filhoEsquerda.setPai(novoNo);
-                filhoDireita.setPai(novoNo);
-                if(pai.getElemento()>novoNo.getElemento()){
-                    pai.setFilhoEsquerda(novoNo);
-                } else {
-                    pai.setFilhoDireita(novoNo);
-                }
-                
-                novoNo.setPai(pai);
-                novoNo.setFilhoDireita(filhoEsquerda);
-                novoNo.setFilhoEsquerda(filhoDireita);
-                
-                segura.setPai(null);
-                segura.setFilhoDireita(null);
-                segura.setFilhoEsquerda(null);
-            //inserir na direita de um no externo
+                System.out.println("Elemento ja existe.");
             } else if(segura.getElemento() > novoNo.getElemento()){
-                segura.setFilhoDireita(novoNo);
-                novoNo.setPai(segura);
-            //inserir na esquerda de um no externo
-            } else if (segura.getElemento() < novoNo.getElemento()){
                 segura.setFilhoEsquerda(novoNo);
                 novoNo.setPai(segura);
+                tamanho++;
+                System.out.println( novoNo + " adicionado a esquerda de " + segura.getElemento());
+            } else if (segura.getElemento() < novoNo.getElemento()){
+                segura.setFilhoDireita(novoNo);
+                novoNo.setPai(segura);
+                tamanho++;
+                System.out.println( novoNo + " adicionado a direita de " + segura.getElemento());
             }
         }
+    }
+
+    @Override
+    public No remover(No no) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mostrar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

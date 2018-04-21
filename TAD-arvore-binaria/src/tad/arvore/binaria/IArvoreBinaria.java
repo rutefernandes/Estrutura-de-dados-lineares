@@ -25,10 +25,7 @@ public interface IArvoreBinaria {
     public boolean isInternal(No no);
     public boolean isExternal(No no);
     public boolean isRoot(No no);
-    public int depth(No no);
-
-    /* Métodos de atualização */
-    public int replace(No no, int o);    
+    public int depth(No no);   
 
    /* Métodos da arvore binaria */
     public Object leftChild(No no);;
@@ -39,7 +36,7 @@ public interface IArvoreBinaria {
     public void adicionar(int o);
     public No buscar(int posicao);
     public No buscar(int posicao, No raiz);
-    //remoçao()
-    //mostrar();
+    public No remover(No no);
+    public void mostrar();
 
 }
