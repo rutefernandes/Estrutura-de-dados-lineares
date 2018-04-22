@@ -31,6 +31,9 @@ public class Teste {
             Object element = v.next();
             System.out.print(element + " ");
         }
+        
+        System.out.println("");
+        System.out.println(arvore);
     }
     
 }

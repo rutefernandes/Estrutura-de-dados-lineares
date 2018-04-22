@@ -204,6 +204,57 @@ public class ArvoreBinaria implements IArvoreBinaria{
             }
         }
     }
+    
+    public Iterator inOrder() {
+        return inOrder(this.root()).iterator();
+    }
+    
+    private ArrayList inOrder(No n) {
+        ArrayList v = new ArrayList();
+        if (isInternal(n)) {
+            if (this.leftChild(n) != null) {
+                v.addAll(inOrder(this.leftChild(n)));
+            }
+            
+            v.add(n);
+            
+            if (this.rightChild(n) != null) {
+                v.addAll(inOrder(this.rightChild(n)));
+            }
+        } else {
+            v.add(n);
+        }
+        
+
+        return v;
+    }
+    
+    public String toString () {
+        Iterator itr = inOrder();
+        int h = this.height() + 5;
+        int l = this.size() + 5;
+        
+        Object matrix[][] = new Object[h][l];
+        
+        int i = 0;
+        while (itr.hasNext()) {
+            No n = (No) itr.next();
+            int d = this.depth(n);
+            matrix[d][i] = n.getElemento();
+            i++;
+        }
+        
+        String str = "";
+        
+        for (i = 0; i < h; i++){
+            for (int j = 0; j < l; j++) {
+                str += matrix[i][j] == null ? "  " : ((int) matrix[i][j] >= 0 ? " " + matrix[i][j] : matrix[i][j]);
+            }
+            str += "\n";
+        }
+        
+        return str;
+    }
 
     @Override
     public No remover(No no) {
@@ -212,7 +263,7 @@ public class ArvoreBinaria implements IArvoreBinaria{
 
     @Override
     public void mostrar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println(this.toString());
     }
     
 }

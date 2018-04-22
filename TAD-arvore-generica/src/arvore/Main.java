@@ -53,7 +53,7 @@ public class Main {
         
         System.out.println("buscando 3: " + as.buscar(7).element());
         
-//        System.out.println(as);
+        System.out.println(as);
         
         
     }
