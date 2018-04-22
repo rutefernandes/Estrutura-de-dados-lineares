@@ -10,6 +10,8 @@ import java.util.Iterator;
 public class ArvoreBinaria implements IArvoreBinaria{
     private No raiz;
     private int tamanho;
+    ArrayList<No> inOrder = new ArrayList<No>();
+    ArrayList<No> preOrder = new ArrayList<No>();
     
     public ArvoreBinaria(){
         this.raiz = null;
@@ -18,7 +20,7 @@ public class ArvoreBinaria implements IArvoreBinaria{
     
     public ArvoreBinaria(int o){
         raiz = new No(o);
-	tamanho = 1;
+	tamanho++;
     }
     
     public No getRaiz() {
@@ -61,17 +63,43 @@ public class ArvoreBinaria implements IArvoreBinaria{
             return h+1;
         }
     }
+
+    @Override
+    public Iterator elements() { //preOrder
+        return (root()==null)?null:elements(root()); 
+    }
+    
+    public Iterator elements(No v){
+        preOrder.add(v);
+        if(leftChild(v)!=null){
+            elements(leftChild(v));
+        }
+        if(rightChild(v)!=null){
+            elements(rightChild(v));
+        }
+        Iterator itr = preOrder.iterator();
+        return itr;
+    }
     
     @Override
-    public Iterator elements() { //TODO
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Iterator nos() { //inOrder
+        return (root()==null)?null:nos(root());
     }
 
-    @Override
-    public Iterator nos() { //TODO
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Iterator nos(No v) { 
+        if(isInternal(v)){
+            nos(leftChild(v)); 
+            inOrder.add(v);
+        } else if(v!=null) {
+            inOrder.add(v);
+        }
+        if(isInternal(v)){
+            nos(rightChild(v));
+        }
+        Iterator itr = inOrder.iterator();
+        return itr;
     }
-
+    
     @Override
     public No root() {
         return getRaiz();
@@ -93,7 +121,7 @@ public class ArvoreBinaria implements IArvoreBinaria{
 
     @Override
     public boolean isInternal(No no) {
-        return (no==null)? true : (no.getFilhoDireita()!=null || no.getFilhoEsquerda()!= null);
+        return (no==null)? false : (no.getFilhoDireita()!=null || no.getFilhoEsquerda()!= null);
     }
 
     @Override
@@ -108,21 +136,17 @@ public class ArvoreBinaria implements IArvoreBinaria{
 
     @Override
     public int depth(No no) {
-        if(isRoot(no)){
-            return 0;
-        } else {
-            return 1+depth(parent(no));
-        }
+        return (isRoot(no)?0:1+depth(parent(no)));
     }
 
     @Override
-    public Object leftChild(No no) {
-        return hasLeft(no)?(no.getFilhoEsquerda().getElemento()):null;
+    public No leftChild(No no) {
+        return hasLeft(no)?(no.getFilhoEsquerda()):null;
     }
 
     @Override
-    public Object rightChild(No no) {
-        return hasRight(no)?(no.getFilhoDireita().getElemento()):null;
+    public No rightChild(No no) {
+        return hasRight(no)?(no.getFilhoDireita()):null;
     }
 
     @Override
