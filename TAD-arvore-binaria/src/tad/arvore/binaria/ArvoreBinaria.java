@@ -63,38 +63,50 @@ public class ArvoreBinaria implements IArvoreBinaria{
             return h+1;
         }
     }
+    
+    @Override
+    public Iterator nos() { 
+        return (root()==null)?null:emOrdem(root());
+    }
 
     @Override
-    public Iterator elements() { //preOrder
-        return (root()==null)?null:elements(root()); 
+    public Iterator elements() { 
+        Iterator itr = (root()==null)?null:emOrdem(root()); 
+        ArrayList elementos = new ArrayList();
+        while(itr.hasNext()) {
+            No no = (No) itr.next();
+            int elemento = no.getElemento();
+            elementos.add(elemento);
+        }
+        itr = elementos.iterator();
+        return itr; 
     }
     
-    public Iterator elements(No v){
+    public Iterator preOrder(){
+        return (root()==null)?null:preOrder(root()); 
+    }
+    
+    public Iterator preOrder(No v){
         preOrder.add(v);
         if(leftChild(v)!=null){
-            elements(leftChild(v));
+            preOrder(leftChild(v));
         }
         if(rightChild(v)!=null){
-            elements(rightChild(v));
+            preOrder(rightChild(v));
         }
         Iterator itr = preOrder.iterator();
         return itr;
     }
-    
-    @Override
-    public Iterator nos() { //inOrder
-        return (root()==null)?null:nos(root());
-    }
 
-    public Iterator nos(No v) { 
+    public Iterator emOrdem(No v) {  //inOrder
         if(isInternal(v)){
-            nos(leftChild(v)); 
+            emOrdem(leftChild(v)); 
             inOrder.add(v);
         } else if(v!=null) {
             inOrder.add(v);
         }
         if(isInternal(v)){
-            nos(rightChild(v));
+            emOrdem(rightChild(v));
         }
         Iterator itr = inOrder.iterator();
         return itr;

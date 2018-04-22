@@ -19,19 +19,12 @@ public class Teste {
         arvore.adicionar(8);
         arvore.adicionar(5);
         No busca = arvore.buscar(9);
-       // arvore.elements();
-        Iterator itr = arvore.nos();
-        while(itr.hasNext()) {
-            Object element = itr.next();
-            System.out.print(element + " ");
-        }
-        System.out.println("");
-        Iterator v = arvore.elements();
+        System.out.println("Elementos");
+        Iterator v = arvore.preOrder();
         while(v.hasNext()) {
             Object element = v.next();
             System.out.print(element + " ");
         }
-        
         System.out.println("");
         System.out.println(arvore);
     }
