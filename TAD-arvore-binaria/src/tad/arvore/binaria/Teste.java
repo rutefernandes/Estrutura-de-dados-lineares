@@ -20,13 +20,12 @@ public class Teste {
         arvore.adicionar(5);
         No busca = arvore.buscar(9);
         System.out.println("Elementos");
-        Iterator v = arvore.preOrder();
+        arvore.mostrar();
+        Iterator v = arvore.inOrder();
         while(v.hasNext()) {
             Object element = v.next();
             System.out.print(element + " ");
         }
-        System.out.println("");
-        System.out.println(arvore);
     }
     
 }

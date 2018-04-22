@@ -66,12 +66,12 @@ public class ArvoreBinaria implements IArvoreBinaria{
     
     @Override
     public Iterator nos() { 
-        return (root()==null)?null:emOrdem(root());
+        return (root()==null)?null:inOrder(root());
     }
 
     @Override
     public Iterator elements() { 
-        Iterator itr = (root()==null)?null:emOrdem(root()); 
+        Iterator itr = (root()==null)?null:inOrder(root()); 
         ArrayList elementos = new ArrayList();
         while(itr.hasNext()) {
             No no = (No) itr.next();
@@ -80,36 +80,6 @@ public class ArvoreBinaria implements IArvoreBinaria{
         }
         itr = elementos.iterator();
         return itr; 
-    }
-    
-    public Iterator preOrder(){
-        return (root()==null)?null:preOrder(root()); 
-    }
-    
-    public Iterator preOrder(No v){
-        preOrder.add(v);
-        if(leftChild(v)!=null){
-            preOrder(leftChild(v));
-        }
-        if(rightChild(v)!=null){
-            preOrder(rightChild(v));
-        }
-        Iterator itr = preOrder.iterator();
-        return itr;
-    }
-
-    public Iterator emOrdem(No v) {  //inOrder
-        if(isInternal(v)){
-            emOrdem(leftChild(v)); 
-            inOrder.add(v);
-        } else if(v!=null) {
-            inOrder.add(v);
-        }
-        if(isInternal(v)){
-            emOrdem(rightChild(v));
-        }
-        Iterator itr = inOrder.iterator();
-        return itr;
     }
     
     @Override
@@ -217,30 +187,6 @@ public class ArvoreBinaria implements IArvoreBinaria{
         }
     }
     
-    public Iterator inOrder() {
-        return inOrder(this.root()).iterator();
-    }
-    
-    private ArrayList inOrder(No n) {
-        ArrayList v = new ArrayList();
-        if (isInternal(n)) {
-            if (this.leftChild(n) != null) {
-                v.addAll(inOrder(this.leftChild(n)));
-            }
-            
-            v.add(n);
-            
-            if (this.rightChild(n) != null) {
-                v.addAll(inOrder(this.rightChild(n)));
-            }
-        } else {
-            v.add(n);
-        }
-        
-
-        return v;
-    }
-    
     public String toString () {
         Iterator itr = inOrder();
         int h = this.height() + 5;
@@ -276,6 +222,49 @@ public class ArvoreBinaria implements IArvoreBinaria{
     @Override
     public void mostrar() {
         System.out.println(this.toString());
+    }
+    
+       
+    public Iterator preOrder(){
+        return (root()==null)?null:preOrder(root()); 
+    }
+    
+    public Iterator preOrder(No v){
+        preOrder.add(v);
+        if(leftChild(v)!=null){
+            preOrder(leftChild(v));
+        }
+        if(rightChild(v)!=null){
+            preOrder(rightChild(v));
+        }
+        Iterator itr = preOrder.iterator();
+        return itr;
+    }
+    
+    public Iterator inOrder(){
+        return (root()==null)?null:inOrder(root()); 
+    }
+    
+    public Iterator inOrder(No v) {  //inOrder
+        if(isInternal(v)){
+            inOrder(leftChild(v)); 
+            inOrder.add(v);
+        } else if(v!=null) {
+            inOrder.add(v);
+        }
+        if(isInternal(v)){
+            inOrder(rightChild(v));
+        }
+        Iterator itr = inOrder.iterator();
+        return itr;
+    }
+    
+    public Iterator posOrder(){
+        return (root()==null)?null:posOrder(root()); 
+    }
+    
+    public Iterator posOrder(No v){ //TODO
+         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
