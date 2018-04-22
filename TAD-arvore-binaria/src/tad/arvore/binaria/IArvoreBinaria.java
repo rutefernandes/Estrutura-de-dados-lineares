@@ -11,9 +11,9 @@ public interface IArvoreBinaria {
     public int size();
     public boolean isEmpty();
     public int height();
-    /** Retorna um iterator com os elementos armazenados na árvore */
+    /** Retorna um iterator com os elementos armazenados na árvore(preOrder)*/
     public Iterator elements();
-    /** Retorna um iterator com as posições (nós) da árvore */
+    /** Retorna um iterator com as posições (nós) da árvore (inOrder)*/
     public Iterator nos();
 
     /* Métodos de acesso*/
@@ -28,8 +28,8 @@ public interface IArvoreBinaria {
     public int depth(No no);   
 
    /* Métodos da arvore binaria */
-    public Object leftChild(No no);;
-    public Object rightChild(No no);;
+    public No leftChild(No no);;
+    public No rightChild(No no);;
     public boolean hasLeft(No no);
     public boolean hasRight(No no);
     
