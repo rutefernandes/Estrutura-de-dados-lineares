@@ -9,7 +9,8 @@ import java.util.Iterator;
 public class Teste {
 
     public static void main(String[] args) {
-        ArvoreBinaria arvore = new ArvoreBinaria(6);
+        ArvoreBinaria arvore = new ArvoreBinaria();
+        arvore.adicionar(6);
         arvore.adicionar(9);
         arvore.adicionar(7);
         arvore.adicionar(1);
@@ -19,9 +20,8 @@ public class Teste {
         arvore.adicionar(8);
         arvore.adicionar(5);
         No busca = arvore.buscar(9);
-        System.out.println("Elementos");
         arvore.mostrar();
-        Iterator v = arvore.posOrder();
+        Iterator v = arvore.preOrder();
         while(v.hasNext()) {
             Object element = v.next();
             System.out.print(element + " ");

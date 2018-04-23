@@ -166,20 +166,23 @@ public class ArvoreBinaria implements IArvoreBinaria{
     @Override
     public void adicionar(int o) {
         No novoNo = new No(o);
+        Comparator c = new Comparator();
+        int resultado;
         if(isEmpty()){
             setRaiz(novoNo);
             tamanho++;
-            System.out.println("Elemento adicionado como Raiz.");
+            System.out.println(novoNo+" adicionado como Raiz.");
         } else {
             No segura = buscar(o, getRaiz());
-            if(segura.getElemento() == novoNo.getElemento()){
+            resultado = c.compare(segura.getElemento(), novoNo.getElemento());
+            if(resultado==0){
                 System.out.println("Elemento ja existe.");
-            } else if(segura.getElemento() > novoNo.getElemento()){
+            } else if(resultado==1){
                 segura.setFilhoEsquerda(novoNo);
                 novoNo.setPai(segura);
                 tamanho++;
                 System.out.println( novoNo + " adicionado a esquerda de " + segura.getElemento());
-            } else if (segura.getElemento() < novoNo.getElemento()){
+            } else if(resultado==-1){
                 segura.setFilhoDireita(novoNo);
                 novoNo.setPai(segura);
                 tamanho++;
@@ -248,7 +251,7 @@ public class ArvoreBinaria implements IArvoreBinaria{
         return (root()==null)?null:inOrder(root()); 
     }
     
-    public Iterator inOrder(No v) {  //inOrder
+    public Iterator inOrder(No v) { 
         if(isInternal(v)){
             inOrder(leftChild(v)); 
             inOrder.add(v);
