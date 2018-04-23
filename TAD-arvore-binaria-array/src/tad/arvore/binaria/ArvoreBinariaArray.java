@@ -35,7 +35,8 @@ public class ArvoreBinariaArray implements IArvoreBinaria{
      */
     
     private int compare (Object n, Object w) {
-        return (int) n - (int) w;
+        Comparator c = new Comparator();
+        return c.compare(n, w);
     }
 
     @Override
@@ -149,6 +150,10 @@ public class ArvoreBinariaArray implements IArvoreBinaria{
     public No root() {
         return this.arvore[1];
     }
+    
+    private void root(No no) {
+        this.arvore[1] = no;
+    }
 
     @Override
     public No parent(No no) {
@@ -214,12 +219,46 @@ public class ArvoreBinariaArray implements IArvoreBinaria{
     public boolean hasRight(No no) {
         return no.getFilhoDireita() < this.arvore.length && this.arvore[no.getFilhoDireita()] != null;
     }
-
-    @Override
-    public void adicionar(Object o) {
-        adicionar(o, this.root());
+    
+    private void expandTree () {
+        No arrTmp[] = new No[this.arvore.length * 2];
+        for (int i = 0; i < this.arvore.length; i++) {
+            arrTmp[i] = this.arvore[i];
+        }
+        this.arvore = arrTmp;
     }
     
+    @Override
+    public void adicionar(Object o) {
+        Comparator c = new Comparator();
+        int resultado;
+        if(isEmpty()) {
+            this.root(new No(o, 0, 1));
+            this.r++;
+        } else {
+            No novoNo = null;
+            No segura = buscar(o, this.root());
+            resultado = (int) c.compare(segura.getElemento(), o);
+            if(resultado==0){
+                return;
+            } else if(resultado>0){
+                novoNo = new No(o, segura.getIndex(), segura.getFilhoEsquerda());
+            } else if(resultado<0){
+                novoNo = new No(o, segura.getIndex(), segura.getFilhoDireita());
+            }
+            
+            if (novoNo != null) {
+                if (novoNo.getIndex() > this.arvore.length -1) {
+                    expandTree();
+                }
+                this.arvore[novoNo.getIndex()] = novoNo;
+                this.r++;
+            }
+        }
+        
+    }
+    
+    // Adicionar recursivo
     private void adicionar (Object o, No no) {
         int nxt;
         if (compare(no.getElemento(), o) > 0) {
@@ -247,12 +286,12 @@ public class ArvoreBinariaArray implements IArvoreBinaria{
     }
 
     @Override
-    public No buscar(Object k) throws NotFoundException {
+    public No buscar(Object k) {
         No n = buscar(k, this.root());
         
-        if (compare(n.getElemento(), k) != 0) {
-            throw new NotFoundException();
-        }
+//        if (compare(n.getElemento(), k) != 0) {
+//            throw new NotFoundException();
+//        }
         
         return n;
     }
@@ -263,11 +302,11 @@ public class ArvoreBinariaArray implements IArvoreBinaria{
         }
         
         if (compare(k, no.getElemento()) < 0) {
-            return buscar(k, this.leftChild(no));
+            return this.leftChild(no) != null ? buscar(k, this.leftChild(no)) : no;
         } else if (compare(k, no.getElemento()) == 0) {
             return no;
         } else {
-            return buscar(k, this.rightChild(no));
+            return this.rightChild(no) != null ? buscar(k, this.rightChild(no)) : no;
         }
     }
 
@@ -285,14 +324,11 @@ public class ArvoreBinariaArray implements IArvoreBinaria{
             this.replace(no, right);
             this.replace(right, null);
         } else {
-            No ref = this.rightChild(no);
+            ArrayList<No> inOrder = inOrder(no);
+            No predecessor = inOrder.get(inOrder.indexOf(no)-1);
             
-            while (this.leftChild(ref) != null) {
-                ref = this.leftChild(ref);
-            }
-            
-            no.setElemento(ref.getElemento());
-            this.replace(ref, null);
+            this.replace(no, predecessor.getElemento());
+            this.replace(predecessor, null);
         }
         
         this.r--;

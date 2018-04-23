@@ -42,7 +42,7 @@ public interface IArvoreBinaria {
     public boolean hasRight(No no);
     
     public void adicionar(Object o);
-    public No buscar(Object k) throws NotFoundException;
+    public No buscar(Object k);
     public No remover(No no);
     public void mostrar();
 }
