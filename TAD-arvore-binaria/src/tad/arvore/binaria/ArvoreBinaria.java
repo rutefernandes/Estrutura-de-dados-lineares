@@ -10,8 +10,9 @@ import java.util.Iterator;
 public class ArvoreBinaria implements IArvoreBinaria{
     private No raiz;
     private int tamanho;
-    ArrayList<No> inOrder = new ArrayList<No>();
-    ArrayList<No> preOrder = new ArrayList<No>();
+    private ArrayList<No> inOrder = new ArrayList<No>();
+    private ArrayList<No> preOrder = new ArrayList<No>();
+    private ArrayList<No> posOrder = new ArrayList<No>();
     
     public ArvoreBinaria(){
         this.raiz = null;
@@ -226,6 +227,7 @@ public class ArvoreBinaria implements IArvoreBinaria{
     
        
     public Iterator preOrder(){
+        preOrder = new ArrayList();
         return (root()==null)?null:preOrder(root()); 
     }
     
@@ -242,6 +244,7 @@ public class ArvoreBinaria implements IArvoreBinaria{
     }
     
     public Iterator inOrder(){
+        inOrder = new ArrayList();
         return (root()==null)?null:inOrder(root()); 
     }
     
@@ -260,11 +263,20 @@ public class ArvoreBinaria implements IArvoreBinaria{
     }
     
     public Iterator posOrder(){
+        posOrder = new ArrayList();
         return (root()==null)?null:posOrder(root()); 
     }
     
-    public Iterator posOrder(No v){ //TODO
-         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Iterator posOrder(No v){
+        if(leftChild(v)!=null){
+            posOrder(leftChild(v));
+        }
+        if(rightChild(v)!=null){
+            posOrder(rightChild(v));
+        }
+        posOrder.add(v);
+        Iterator itr = posOrder.iterator();
+        return itr;
     }
     
 }

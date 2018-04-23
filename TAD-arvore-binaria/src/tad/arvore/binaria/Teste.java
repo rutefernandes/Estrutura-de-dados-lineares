@@ -21,7 +21,7 @@ public class Teste {
         No busca = arvore.buscar(9);
         System.out.println("Elementos");
         arvore.mostrar();
-        Iterator v = arvore.inOrder();
+        Iterator v = arvore.posOrder();
         while(v.hasNext()) {
             Object element = v.next();
             System.out.print(element + " ");
