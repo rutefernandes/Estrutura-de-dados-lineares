@@ -21,7 +21,7 @@ public class Teste {
         arvore.adicionar(5);
         No busca = arvore.buscar(9);
         arvore.mostrar();
-        Iterator v = arvore.preOrder();
+        Iterator v = arvore.inOrder();
         while(v.hasNext()) {
             Object element = v.next();
             System.out.print(element + " ");

@@ -174,15 +174,15 @@ public class ArvoreBinaria implements IArvoreBinaria{
             System.out.println(novoNo+" adicionado como Raiz.");
         } else {
             No segura = buscar(o, getRaiz());
-            resultado = c.compare(segura.getElemento(), novoNo.getElemento());
+            resultado = (int) c.compare(segura.getElemento(), novoNo.getElemento());
             if(resultado==0){
                 System.out.println("Elemento ja existe.");
-            } else if(resultado==1){
+            } else if(resultado>0){
                 segura.setFilhoEsquerda(novoNo);
                 novoNo.setPai(segura);
                 tamanho++;
                 System.out.println( novoNo + " adicionado a esquerda de " + segura.getElemento());
-            } else if(resultado==-1){
+            } else if(resultado<0){
                 segura.setFilhoDireita(novoNo);
                 novoNo.setPai(segura);
                 tamanho++;
