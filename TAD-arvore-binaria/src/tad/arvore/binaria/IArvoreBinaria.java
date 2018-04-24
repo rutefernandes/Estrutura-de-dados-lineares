@@ -27,6 +27,8 @@ public interface IArvoreBinaria {
     public boolean isRoot(No no);
     public int depth(No no);   
 
+    public int replace(No no, int o);
+    
    /* Métodos da arvore binaria */
     public No leftChild(No no);;
     public No rightChild(No no);;

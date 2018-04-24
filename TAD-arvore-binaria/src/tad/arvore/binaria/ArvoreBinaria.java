@@ -10,6 +10,7 @@ import java.util.Iterator;
 public class ArvoreBinaria implements IArvoreBinaria{
     private No raiz;
     private int tamanho;
+    Comparator c = new Comparator();
     private ArrayList<No> inOrder = new ArrayList<No>();
     private ArrayList<No> preOrder = new ArrayList<No>();
     private ArrayList<No> posOrder = new ArrayList<No>();
@@ -166,7 +167,6 @@ public class ArvoreBinaria implements IArvoreBinaria{
     @Override
     public void adicionar(int o) {
         No novoNo = new No(o);
-        Comparator c = new Comparator();
         int resultado;
         if(isEmpty()){
             setRaiz(novoNo);
@@ -217,10 +217,50 @@ public class ArvoreBinaria implements IArvoreBinaria{
         
         return str;
     }
+    
+    public int replace(No n1, int o){
+        int oldN = n1.getElemento();
+        n1.setElemento(o);
+        return oldN;
+    }
 
     @Override
     public No remover(No no) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean hasleft = hasLeft(no);
+        boolean hasright = hasRight(no);
+        No pai = no.getPai();
+        No oldN = no;
+        No r = no;
+        if(isExternal(no)){
+            
+        } else if(hasleft && !hasright){
+            No filhoE = no.getFilhoEsquerda();
+            no.setElemento(filhoE.getElemento());
+            no.setFilhoEsquerda(null);
+            filhoE.setPai(null);
+            return oldN;
+        } else if(!hasleft && hasright){
+            No filhoD = no.getFilhoDireita();
+            no.setElemento(filhoD.getElemento());
+            no.setFilhoDireita(null);
+            filhoD.setPai(null);
+            return oldN;
+        } else if(hasleft && hasright){
+            No ref = this.rightChild(no);
+            while (this.leftChild(ref) != null) {
+                ref = this.leftChild(ref);
+            }
+            no.setElemento(ref.getElemento());
+            r = ref;
+        }
+        int resultado = (int) c.compare(r.getElemento(), r.getPai().getElemento());
+        if(resultado>0){
+            r.getPai().setFilhoDireita(null);
+        } else{
+            r.getPai().setFilhoEsquerda(null);
+        }
+        r.setPai(null);
+        return oldN;
     }
 
     @Override
