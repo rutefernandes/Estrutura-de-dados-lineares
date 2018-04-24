@@ -10,16 +10,17 @@ public class Teste {
 
     public static void main(String[] args) {
         ArvoreBinaria arvore = new ArvoreBinaria();
-        arvore.adicionar(6);
-        arvore.adicionar(9);
-        arvore.adicionar(7);
-        arvore.adicionar(1);
-        arvore.adicionar(3);
-        arvore.adicionar(2);
-        arvore.adicionar(4);
-        arvore.adicionar(8);
+        //5 12 2 9 21 19 25 2 
         arvore.adicionar(5);
-        No busca = arvore.buscar(9);
+        arvore.adicionar(12);
+        arvore.adicionar(2);
+        arvore.adicionar(1);
+        arvore.adicionar(9);
+        arvore.adicionar(21);
+        arvore.adicionar(19);
+        arvore.adicionar(25);
+        No busca = arvore.buscar(12);
+        System.out.println(arvore.remover(busca));
         arvore.mostrar();
         Iterator v = arvore.inOrder();
         while(v.hasNext()) {
