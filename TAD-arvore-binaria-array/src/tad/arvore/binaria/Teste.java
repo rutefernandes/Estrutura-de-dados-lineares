@@ -25,12 +25,11 @@ public class Teste {
         System.out.println(arvore);
         
         No busca;
-        try {
-            busca = arvore.buscar(2);
-            System.out.println(arvore.hasLeft(busca));
-        } catch (NotFoundException ex) {
-            ex.printStackTrace();
-        }
+        busca = arvore.buscar(-2);
+        arvore.remover(busca);
+        
+        System.out.println(arvore);
+        System.out.println(arvore.depth(arvore.buscar(4)));
         System.out.println(arvore.height());
     }
     
