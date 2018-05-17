@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class Teste {
     public static void main(String[] args) {
-        HashTableLP ht = new HashTableLP();
+        IDicionario ht = new HashTableHD();
         
         try {
             ht.insertItem(1, "Opa");
