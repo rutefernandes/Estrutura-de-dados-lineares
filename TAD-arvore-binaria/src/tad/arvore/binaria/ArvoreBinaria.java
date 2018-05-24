@@ -226,41 +226,56 @@ public class ArvoreBinaria implements IArvoreBinaria{
 
     @Override
     public No remover(No no) {
-        boolean hasleft = hasLeft(no);
-        boolean hasright = hasRight(no);
-        No pai = no.getPai();
-        No oldN = no;
-        No r = no;
-        if(isExternal(no)){
-            
-        } else if(hasleft && !hasright){
-            No filhoE = no.getFilhoEsquerda();
-            no.setElemento(filhoE.getElemento());
-            no.setFilhoEsquerda(null);
-            filhoE.setPai(null);
-            return oldN;
-        } else if(!hasleft && hasright){
-            No filhoD = no.getFilhoDireita();
-            no.setElemento(filhoD.getElemento());
-            no.setFilhoDireita(null);
-            filhoD.setPai(null);
-            return oldN;
-        } else if(hasleft && hasright){
-            No ref = this.rightChild(no);
-            while (this.leftChild(ref) != null) {
-                ref = this.leftChild(ref);
+        return remover(no, no.getElemento());
+    }
+
+    private No remover(No n, Object o) {
+        if (n != null) {
+            /*folha*/
+            if (isExternal(n)) {
+                if ((int) c.compare(n.getElemento(), n.getPai().getElemento()) <= 0) {
+                    n.getPai().setFilhoEsquerda(null);
+                } else {
+                    n.getPai().setFilhoDireita(null);
+                }
+                this.tamanho--;
+                return n;
             }
-            no.setElemento(ref.getElemento());
-            r = ref;
+            /*um nó*/
+            if (n.getFilhoEsquerda() != null && n.getFilhoDireita() == null) {
+                if ((int) c.compare(n.getElemento(), n.getPai().getElemento()) <= 0) {
+                    n.getPai().setFilhoEsquerda(n.getFilhoEsquerda());
+                    n.getFilhoEsquerda().setPai(n.getPai());
+                } else {
+                    n.getPai().setFilhoDireita(n.getFilhoEsquerda());
+                    n.getFilhoEsquerda().setPai(n.getPai());
+                }
+                this.tamanho--;
+                return n;
+            }
+            if (n.getFilhoEsquerda() == null && n.getFilhoDireita() != null) {
+                if ((int) c.compare(n.getElemento(), n.getPai().getElemento()) <= 0) {
+                    n.getPai().setFilhoEsquerda(n.getFilhoDireita());
+                    n.getFilhoDireita().setPai(n.getPai());
+                } else {
+                    n.getPai().setFilhoDireita(n.getFilhoDireita());
+                    n.getFilhoDireita().setPai(n.getPai());
+                }
+                this.tamanho--;
+                return n;
+            }
+            /*dois nós*/
+            No andaEsq = n.getFilhoDireita();
+            while (andaEsq.getFilhoEsquerda() != null) {
+                andaEsq = andaEsq.getFilhoEsquerda();
+            }
+            Object valorBackup = andaEsq.getElemento();
+            remover(andaEsq, valorBackup);
+            n.setElemento((int) valorBackup);
+            this.tamanho--;
+            return n;
         }
-        int resultado = (int) c.compare(r.getElemento(), r.getPai().getElemento());
-        if(resultado>0){
-            r.getPai().setFilhoDireita(null);
-        } else{
-            r.getPai().setFilhoEsquerda(null);
-        }
-        r.setPai(null);
-        return oldN;
+        return null;
     }
 
     @Override

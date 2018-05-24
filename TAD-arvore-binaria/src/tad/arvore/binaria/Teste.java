@@ -19,7 +19,8 @@ public class Teste {
         arvore.adicionar(21);
         arvore.adicionar(19);
         arvore.adicionar(25);
-        No busca = arvore.buscar(12);
+        arvore.mostrar();
+        No busca = arvore.buscar(5);
         System.out.println(arvore.remover(busca));
         arvore.mostrar();
         Iterator v = arvore.inOrder();

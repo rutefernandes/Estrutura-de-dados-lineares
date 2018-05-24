@@ -12,25 +12,18 @@ public class Teste {
 
     public static void main(String[] args) {
         ArvoreBinariaArray arvore = new ArvoreBinariaArray(6);
-        arvore.adicionar(7);
-        arvore.adicionar(9);
-        arvore.adicionar(1);
-        arvore.adicionar(-2);
+        arvore.adicionar(5);
+        arvore.adicionar(12);
         arvore.adicionar(2);
-        arvore.adicionar(-1);
-        arvore.adicionar(3);
-        arvore.adicionar(-3);
-        arvore.adicionar(4);
-        
-        System.out.println(arvore);
-        
-        No busca;
-        busca = arvore.buscar(-2);
+        arvore.adicionar(1);
+        arvore.adicionar(9);
+        arvore.adicionar(21);
+        arvore.adicionar(19);
+        arvore.adicionar(25);
+        arvore.mostrar();
+        No busca = arvore.buscar(5);
         arvore.remover(busca);
-        
-        System.out.println(arvore);
-        System.out.println(arvore.depth(arvore.buscar(4)));
-        System.out.println(arvore.height());
+        arvore.mostrar();
     }
     
 }

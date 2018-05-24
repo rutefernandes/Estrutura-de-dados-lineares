@@ -317,20 +317,20 @@ public class ArvoreBinariaArray implements IArvoreBinaria{
             this.replace(no, null);
         } else if (hasLeft(no) && !hasRight(no)) {
             No left = this.leftChild(no);
-            this.replace(no, left);
+            this.replace(no, left.getElemento());
 //            this.replace(left, null);
             this.arvore[left.getIndex()] = null;
         } else if (!hasLeft(no) && hasRight(no)) {
             No right = this.rightChild(no);
-            this.replace(no, right);
+            this.replace(no, right.getElemento());
 //            this.replace(right, null);
             this.arvore[right.getIndex()] = null;
         } else {
             ArrayList<No> inOrder = inOrder(no);
-            No predecessor = inOrder.get(inOrder.indexOf(no)-1);
+            No sucessor = inOrder.get(inOrder.indexOf(no)+1);
             
-            this.replace(no, predecessor.getElemento());
-            this.arvore[predecessor.getIndex()] = null;
+            this.replace(no, sucessor.getElemento());
+            this.arvore[sucessor.getIndex()] = null;
         }
         
         this.r--;
