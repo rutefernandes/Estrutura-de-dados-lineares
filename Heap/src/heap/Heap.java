@@ -5,6 +5,9 @@
  */
 package heap;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  *
  * @author tiago
@@ -27,15 +30,24 @@ public class Heap {
     }
     
     public boolean hasLeft (No n) {
-        return n.getIndex()*2 > this.n;
+        return n.getIndex()*2 <= this.n;
     }
     
     public boolean hasRight (No n) {
-        return (n.getIndex()*2 + 1) > this.n;
+        return (n.getIndex()*2 + 1) <= this.n;
     }
     
     public No parent (No n) {
         return heap[n.getPai()];
+    }
+    
+    public No root() {
+        return heap[1];
+    }
+    
+    public boolean isInternal(No no) {
+        if (no == null) return false;
+        return hasLeft(no);
     }
     
     public boolean isRoot (No n) {
@@ -47,19 +59,20 @@ public class Heap {
     }
     
     public void upheap (No n) {
-        if (!isRoot(n) && n.getChave() < parent(n).getChave()) {
-            No pai = parent(n);
-            int chave = n.getChave();
-            Object valor = n.getValor();
-            
-            n.setChave(pai.getChave());
-            n.setValor(pai.getValor());
-            
-            pai.setChave(chave);
-            pai.setValor(valor);
-            
-            upheap(pai);
-        }
+//        System.out.println(n.getValor());
+        No pai = parent(n);
+        if (isRoot(n) || pai.getChave() < n.getChave()) return;
+        
+        int chavePai =  pai.getChave();
+        Object valorPai = pai.getValor();
+        
+        pai.setChave(n.getChave());
+        pai.setValor(n.getValor());
+        
+        n.setChave(chavePai);
+        n.setValor(valorPai);
+        
+        upheap(pai);
     }
     
     public void downheap (No no) {
@@ -74,6 +87,7 @@ public class Heap {
         } else {
             minChild = left.getChave() < right.getChave() ? left : right;
         }
+        
         
         if (no.getChave() < minChild.getChave()) return;
         
@@ -97,12 +111,77 @@ public class Heap {
     
     public No removeMin () {
         No min = heap[1];
+        No r = new No(min.getIndex(), min.getChave(), min.getValor());
         No last = heap[n--];
         
-        heap[1] = last;
+        heap[1].setChave(last.getChave());
+        heap[1].setValor(last.getValor());
         downheap(heap[1]);
         
-        return min;
+        return r;
     }
+    
+    public Iterator inOrder() {
+        return inOrder(this.root()).iterator();
+    }
+    
+    private ArrayList inOrder(No n) {
+        ArrayList v = new ArrayList();
+        if (isInternal(n)) {
+            if (this.leftChild(n) != null) {
+                v.addAll(inOrder(this.leftChild(n)));
+            }
+            
+            v.add(n);
+            
+            if (this.rightChild(n) != null) {
+                v.addAll(inOrder(this.rightChild(n)));
+            }
+        } else {
+            v.add(n);
+        }
+        
+
+        return v;
+    }
+    
+    public void mostrar() {
+        for (int i = 1; i <= n; i++) {
+            System.out.print("{" + heap[i].getChave() + ", " + heap[i].getValor() + "}, ");
+        }
+        System.out.println("");
+    }
+    
+//    public String toString () {
+//        Iterator itr = inOrder();
+//        int h = this.height() + 5;
+//        int l = this.size() + 5;
+//        
+//        Object matrix[][] = new Object[h][l];
+//        
+//        int i = 0;
+//        while (itr.hasNext()) {
+//            No n = (No) itr.next();
+//            int d = this.depth(n);
+//            matrix[d][i] = n.getElemento();
+//            i++;
+//        }
+//        
+//        String str = "";
+//        
+//        for (i = 0; i < h; i++){
+//            for (int j = 0; j < l; j++) {
+//                str += matrix[i][j] == null ? "  " : ((int) matrix[i][j] >= 0 ? " " + matrix[i][j] : matrix[i][j]);
+//            }
+//            str += "\n";
+//        }
+//        
+//        return str;
+//    }
+//
+//    
+//    public void mostrar() {
+//        System.out.println(toString());
+//    }
     
 }
